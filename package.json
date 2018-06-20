@@ -22,7 +22,7 @@
     "react-dev": "webpack -d --watch",
     "mysql": "mysql -u root < schema.sql"
   },
-   "dependencies": {
+  "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.1.1",
