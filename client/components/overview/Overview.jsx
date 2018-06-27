@@ -31,11 +31,12 @@ class Overview extends React.Component {
   }
 
   componentDidMount() {
-    this.displayAllReviews();
+    // this.displayAllReviews();
+
   }
 
   displayAllReviews(props) {
-    axios.get(`/reviews/restaurant/${this.props.restaurantId}/reviews`)
+    axios.get(`http://locallhost:3020/reviews/restaurant/${this.props.restaurantId}/reviews`)
       .then( response => {
         this.setState({
           totalReviews : response.data.length,
