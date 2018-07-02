@@ -1,44 +1,45 @@
-const port = 3020;
+require('newrelic');
+const port = process.env.port || 3020;
 const bodyParser = require('body-parser');
-const db = require('../../database/cassandra/cassandra.js');
 const path = require('path');
 const express = require('express');
 const app = express();
+const reviewsRoutes = require('./reviewsRoutes');
 
 app.use(bodyParser.json());
 
-app.use('/reviewsBundle.js', express.static(path.join(__dirname + '../../../client/dist/bundle.js')));
-app.use('/reviewsMain.css', express.static(path.join(__dirname + '../../../client/styles/main.css')));
+app.use('/reviews', express.static(path.join(__dirname + '../../../client/dist/bundle.js')));
+app.use('/reviews', express.static(path.join(__dirname + '../../../client/styles/main.css')));
 
-
-
-
-
-app.get('/restaurant/:restaurantId/reviews', (req, res) => {
-  db.getAllReviewsByRestauranId(req.params.restaurantId, (err, results) => {
-    if (err) {res.status(500).send(err)}
-    //console.log('the params from server get request->',req.params);
-    res.status(200).send(results);
-  });
-});
-
-
-
-
-app.use("/", function(req, res, next) {
-  console.log("the request URL is " + req.url);
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  );
+  if (req.method === 'OPTIONS') {
+    res.header(
+      'Access-Control-Allow-Mehods',
+      'GET, POST, PUT, DELETE',
+    );
+    return res.status(200).json({});
+  }
   next();
 });
 
+app.get('/favicon.ico', (req, res) => res.status(204));
+
+app.use('/restaurant', reviewsRoutes);
+
+app.use((req, res, next) => {
+  const error = new Error('Not found');
+  error.status = 404;
+  next(error);
+});
+
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.json({ error: { message: error.message }});
+  });
 
 app.listen(port, () => console.log(`DataTable listening on port ${port}`));
-
-
-/*
-  getAllReviewsByRestauranId,
-  getRestaurantNameById,
-  getUserNameById,
-  insertReview,
-  editReview,
-  deleteReview
-*/

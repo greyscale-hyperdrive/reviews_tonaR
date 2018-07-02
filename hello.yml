@@ -1,0 +1,27 @@
+config:
+  target: "http://localhost:3020"
+  phases:
+    - duration: 60
+      arrivalRate: 100
+      name: "Warm up the application"
+    - duration: 120
+      arrivalRate: 1000
+      # rampTo: 100
+      name: "jump to max load"
+    - duration: 1200
+      arrivalRate: 2500
+      name: "keep at the max load"
+    # - duration: 1
+    #   arrivalRate: 1
+    #   rampTo: 1
+    #   name: "calm down"
+  defaults:
+    headers:
+      x-my-service-auth: '987401838271002188298567'
+
+scenarios:
+    - flow:
+        - loop:
+            - get:
+                url: '/restaurant/{{$randomNumber(9000000, 9999999)}}/reviews'
+          count: 1
