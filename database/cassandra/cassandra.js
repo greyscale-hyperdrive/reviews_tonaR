@@ -1,9 +1,7 @@
 const cassandra = require('cassandra-driver');
 
 const client = new cassandra.Client({ contactPoints: ['127.0.0.1:9042'], keyspace: 'datatablereviews'});
-client.connect(function (err) {
-  console.log(err);
-});
+client.connect();
 
 // - GET -
 const getAllReviewsByRestauranId = (restId, callback) => {
@@ -78,6 +76,8 @@ const deleteReview = (params, callback) => {
       callback(err);
     });
 };
+
+console.log('what do I get back ->', getAllReviewsByRestauranId(9100101,x => x));
 
 module.exports = {
   getAllReviewsByRestauranId,
