@@ -24,12 +24,13 @@ class ReviewsList extends React.Component {
     this.chooseSortingFunction = this.chooseSortingFunction.bind(this);
   }
   
-  componentDidMount() {
-    this.displayAllReviews();
-  }
+  // componentDidMount() {
+  //   this.displayAllReviews();
+  // }
   
   displayAllReviews() {
-    axios.get(`/reviews/restaurant/${this.props.restaurantId}/reviews`)
+    
+    axios.get(`/restaurant/${this.props.restaurantId}/reviews`)
     .then( response => {
       this.setState({
         reviews: response.data,

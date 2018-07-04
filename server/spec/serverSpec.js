@@ -8,8 +8,9 @@ const reviewsRoutes = require('./reviewsRoutes');
 
 app.use(bodyParser.json());
 
-app.use('/reviews', express.static(path.join(__dirname + '../../../client/dist/bundle.js')));
-app.use('/reviews', express.static(path.join(__dirname + '../../../client/styles/main.css')));
+app.use('/restaurant/:id/', express.static(path.join(__dirname + '../../../client/')));
+
+app.use(express.static(path.join(__dirname + '../../../client/')));
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');

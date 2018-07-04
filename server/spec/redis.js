@@ -2,7 +2,6 @@ const redis = require('redis');
 const client = redis.createClient();
 const express  = require('express');
 
-
 client.on('connect', function() {
   console.log('connected');
 });

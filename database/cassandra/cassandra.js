@@ -6,81 +6,43 @@ client.connect()
 .catch(err => console.log('err at connection ', err))
 
 // - GET -
-const getAllReviewsByRestauranId = (restId, callback) => {
+const getAllReviewsByRestaurantId = (restId) => {
   const query = `SELECT * FROM datatablereviews.reviews WHERE restaurant_id = ? `;
-  client.execute(query, [restId], { prepare: true })
-    .then(result => {
-      callback(null, result.rows);
-    })
-    .catch(err => {
-      callback(err, null);
-    });
+  return client.execute(query, [restId], { prepare: true });
 }
 
-const getRestaurantNameById = (restId, callback) => {
+const getRestaurantNameById = (restId) => {
   const query = `SELECT * FROM datatablereviews.restaurants WHERE id = ?`;
-  client.execute(query, [restId], { prepare: true })
-    .then(result => {
-      const resultObj = Object.assign( {}, ...result.rows);
-      callback(null, resultObj);
-    })
-    .catch(err => {
-      callback(err)
-    });
+  return client.execute(query, [restId], { prepare: true });
 }
 
-const getUserNameById = (userId, callback) => {
+const getUserNameById = userId => {
   const query = `SELECT * FROM datatablereviews.users WHERE id = ?`;
-  client.execute(query, [userId], { prepare: true })
-    .then(result => {
-      const resultObj = Object.assign( {}, result.rows)
-      callback(null, resultObj);
-    })
-    .catch(err => {
-      callback(err);
-    });
+  return client.execute(query, [userId], { prepare: true });
 }
 
 // - POST -
-const insertReview = (params, callback) => {
+const insertReview = params => {
   const query = `INSERT INTO datatablereviews.reviews (
     restaurant_id, id, ambiance_rating, food_rating, insertion_time, overall_rating, recommended, reservation_date, review_body, service_rating, user_id, value_rating)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-  client.execute(query, params, { prepare: true })
-    .then(result => {
-      callback(null, result);
-      })
-    .catch(err => {
-      callback(err, null);
-    });
+  return client.execute(query, params, { prepare: true });
 };
 
 // - PUT -
-const editReview = (paramsObj, callback) => {
+const editReview = paramsObj => {
   const query = `UPDATE datatablereviews.reviews SET ${Object.keys(paramsObj.request)[0]} = ${paramsObj.request.review_body} WHERE restaurant_id = ${paramsObj.restaurant_id} and id = ${paramsObj.id};`;
-  client.execute(query)
-    .then(result => {
-      callback(null, result);
-    })
-    .catch(err => {
-      callback(err, null);
-    });
+  return  client.execute(query);
 };
 
 // - DELETE - 
-const deleteReview = (params, callback) => {
+const deleteReview = params => {
   const query = `DELETE FROM datatablereviews.reviews WHERE restaurant_id = ? and id = ? ;`;
-  client.execute(query, [params.restaurant_id, params.id], { prepare: true })
-    .then(result => {
-      callback(null, result);
-    })
-    .catch(err => {
-      callback(err);
-    });
+  return client.execute(query, [params.restaurant_id, params.id], { prepare: true });
 };
 
 module.exports = {
-  getAllReviewsByRestauranId,
+  getAllReviewsByRestaurantId,
   getRestaurantNameById,
   getUserNameById,
   insertReview,

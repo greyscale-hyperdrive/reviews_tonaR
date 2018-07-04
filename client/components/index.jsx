@@ -7,5 +7,5 @@ ReactDOM.render((
   <BrowserRouter>
     <Route exact path='/restaurant/:restaurantId' component={App} />
   </BrowserRouter>
-  ), document.getElementById('reviews')
+  ), document.getElementById('app')
 );
