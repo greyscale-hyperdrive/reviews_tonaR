@@ -1,3 +1,6 @@
 npm
+coverage/
 node_modules/
 /config/*
+
+server/spec/newrelic_agent.log

@@ -1,11 +1,13 @@
 const cassandra = require('cassandra-driver');
 
 const client = new cassandra.Client({ contactPoints: ['127.0.0.1:9042'], keyspace: 'datatablereviews'});
-client.connect();
+client.connect()
+.then(x => console.log('connected '))
+.catch(err => console.log('err at connection ', err))
 
 // - GET -
 const getAllReviewsByRestauranId = (restId, callback) => {
-  const query = `SELECT * FROM datatablereviews.reviews WHERE restaurant_id = ?`;
+  const query = `SELECT * FROM datatablereviews.reviews WHERE restaurant_id = ? `;
   client.execute(query, [restId], { prepare: true })
     .then(result => {
       callback(null, result.rows);
@@ -76,8 +78,6 @@ const deleteReview = (params, callback) => {
       callback(err);
     });
 };
-
-console.log('what do I get back ->', getAllReviewsByRestauranId(9100101,x => x));
 
 module.exports = {
   getAllReviewsByRestauranId,
