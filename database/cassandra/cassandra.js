@@ -1,29 +1,51 @@
-const fs = require('fs');
-
 const cassandra = require('cassandra-driver');
 
-const client = new cassandra.Client({ contactPoints: ['127.0.0.1:9042']});
-client.connect(function (err) {
-  console.log(err);
-});
+const client = new cassandra.Client({ contactPoints: ['127.0.0.1:9042'], keyspace: 'datatablereviews'});
+client.connect()
+.then(x => console.log('connected '))
+.catch(err => console.log('err at connection ', err))
 
-const insertRestaurant = function(uniqueKey, name, location) {
-  const query = `INSERT INTO excalibur.restaurants (id, restaurantname, location) Values (?, ?, ?)` ;
-  const params = [uniqueKey, name, location];
-  client. execute(query, params, {prepare: true}, function(err) {
-    console.log(err);
-  })
+// - GET -
+const getAllReviewsByRestaurantId = (restId) => {
+  const query = `SELECT * FROM datatablereviews.reviews WHERE restaurant_id = ? `;
+  return client.execute(query, [restId], { prepare: true });
 }
 
-for (let i = 11; i < 5000; i++) {
-  insertRestaurant(i, `restaurants${i}`, 1000+i);
+const getRestaurantNameById = (restId) => {
+  const query = `SELECT * FROM datatablereviews.restaurants WHERE id = ?`;
+  return client.execute(query, [restId], { prepare: true });
+}
+
+const getUserNameById = userId => {
+  const query = `SELECT * FROM datatablereviews.users WHERE id = ?`;
+  return client.execute(query, [userId], { prepare: true });
+}
+
+// - POST -
+const insertReview = params => {
+  const query = `INSERT INTO datatablereviews.reviews (
+    restaurant_id, id, ambiance_rating, food_rating, insertion_time, overall_rating, recommended, reservation_date, review_body, service_rating, user_id, value_rating)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+  return client.execute(query, params, { prepare: true });
 };
 
-const insertUser = function(uniqueKey, name, location) {
-  const query = 'INSERT INTO users (key, name, email, birthdate) VALUES (?, ?, ?)';
-  const params = ['mick-jagger', 'Sir Mick Jagger', 'mick@rollingstones.com', new Date(1943, 6, 26)]; // <---fix
-  client.execute(query, params, { prepare: true }, function (err) {
-    console.log(err);
-    //Inserted in the cluster
-});
-}
+// - PUT -
+const editReview = paramsObj => {
+  const query = `UPDATE datatablereviews.reviews SET ${Object.keys(paramsObj.request)[0]} = ${paramsObj.request.review_body} WHERE restaurant_id = ${paramsObj.restaurant_id} and id = ${paramsObj.id};`;
+  return  client.execute(query);git 
+};
+
+// - DELETE - 
+const deleteReview = params => {
+  const query = `DELETE FROM datatablereviews.reviews WHERE restaurant_id = ? and id = ? ;`;
+  return client.execute(query, [params.restaurant_id, params.id], { prepare: true });
+};
+
+module.exports = {
+  getAllReviewsByRestaurantId,
+  getRestaurantNameById,
+  getUserNameById,
+  insertReview,
+  editReview,
+  deleteReview
+};

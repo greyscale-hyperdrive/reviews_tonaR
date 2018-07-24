@@ -29,16 +29,20 @@ class ReviewsList extends React.Component {
   }
   
   displayAllReviews() {
-    axios.get(`/reviews/restaurant/${this.props.restaurantId}/reviews`)
+    
+    axios.get(`http://localhost:3020/restaurant/${this.props.restaurantId}/reviews`)
     .then( response => {
+      
+      console.log('Reviews for ReviewsList', response.data)
       this.setState({
         reviews: response.data,
-        visibleReviews : response.data.slice(this.start, this.end)
+        //visibleReviews : response.data.slice(this.start, this.end)
       });
     })
     .catch( error => {
       console.log(error);
     }) 
+    
   }
   
   chooseSortingFunction(event, callback) {

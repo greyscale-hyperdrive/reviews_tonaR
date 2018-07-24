@@ -10,7 +10,6 @@ const generateUsername = () =>  {
   for (let i = 1; i < 12; i++) {
     text += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
   }
-
   return text;
 }
 
