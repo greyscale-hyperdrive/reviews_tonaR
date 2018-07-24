@@ -8,10 +8,6 @@ const reviewsRoutes = require('./reviewsRoutes');
 
 app.use(bodyParser.json());
 
-app.use('/restaurant/:id/', express.static(path.join(__dirname + '../../../client/')));
-
-app.use(express.static(path.join(__dirname + '../../../client/')));
-
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
@@ -31,6 +27,10 @@ app.use((req, res, next) => {
 app.get('/favicon.ico', (req, res) => res.status(204));
 
 app.use('/restaurant', reviewsRoutes);
+
+app.use('/restaurant/:id/', express.static(path.join(__dirname + '../../../client/')));
+
+app.use(express.static(path.join(__dirname + '../../../client/')));
 
 app.use((req, res, next) => {
   const error = new Error('Not found');

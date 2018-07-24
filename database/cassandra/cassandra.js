@@ -32,7 +32,7 @@ const insertReview = params => {
 // - PUT -
 const editReview = paramsObj => {
   const query = `UPDATE datatablereviews.reviews SET ${Object.keys(paramsObj.request)[0]} = ${paramsObj.request.review_body} WHERE restaurant_id = ${paramsObj.restaurant_id} and id = ${paramsObj.id};`;
-  return  client.execute(query);
+  return  client.execute(query);git 
 };
 
 // - DELETE - 
@@ -49,4 +49,3 @@ module.exports = {
   editReview,
   deleteReview
 };
-

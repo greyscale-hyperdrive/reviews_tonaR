@@ -74,9 +74,9 @@ const createUsersCsvFile = function (reviewNum) {
 
 const createReviewsCsvFile = function() {
   
-  let i =10000000;
+  let i = 1;
   let k = 1;
-  let user = 10000000;
+  let user = 1;
   let time = Date.now();
   
   const createReview = () => {
@@ -91,15 +91,14 @@ const createReviewsCsvFile = function() {
     const valueRate = randomInteger(0,5);
     const review = `${k},${i},${ambianceRate},${foodRate},${timeStamp},${overallRate},${recommended},${reservation_date},${reviewBody},${serviceRate},${user},${valueRate}\n`;
     k += 1;
-    user -= 1;
-    if (k === 10000000) {
+    i += 1;
+    if (k === 1000000) {
       k = 1;
+      i = 1;
     }
-    if (user === 1) {
-      user = 10000000;
-    }
-    if ( i % 1000000 === 0) {
-      console.log('working... ' + i + ' entries left.',' Time elapsed from last entry -> ', (Date.now() - time)/1000, ' seconds.');
+
+    if ( user % 1000000 === 0) {
+      console.log('working... ' + user + ' entries done.',' Time elapsed from last entry -> ', (Date.now() - time)/1000, ' seconds.');
       time = Date.now()
     }
     return review;
@@ -109,11 +108,13 @@ const createReviewsCsvFile = function() {
     let drained = true;
     do {
       drained = myWriteStream.write(createReview());
-      i--;
-    } while (i > 00000001 && drained);
-    if (i > 000000001) {
+      user++;
+    } while (user < 10000000 && drained);
+    if (user < 10000000) {
       myWriteStream.once('drain', generateReview);
     }
   }
   generateReview();
 }
+
+createReviewsCsvFile();

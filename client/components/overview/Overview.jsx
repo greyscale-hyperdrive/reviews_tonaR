@@ -26,35 +26,74 @@ class Overview extends React.Component {
       twoStarReviews : 0,
       oneStarReviews : 0
     }
-
     this.displayAllReviews = this.displayAllReviews.bind(this);
   }
 
-  // componentDidMount() {
-  //    this.displayAllReviews();
-
-  // }
+  componentDidMount() {
+     this.displayAllReviews();
+  }
 
   displayAllReviews(props) {
-    console.log(this.props.restaurantId);
-    axios.get(`http://locallhost:3020/restaurant/${this.props.restaurantId}/reviews`)
+    axios.get(`http://127.0.0.1:3020/restaurant/${this.props.restaurantId}/reviews`)
       .then( response => {
-        this.setState({
+        let overviewData = {
           totalReviews : response.data.length,
-          overallRating : overview.overallRating(response.data),
-          foodRating : overview.foodRating(response.data),
-          serviceRating : overview.serviceRating(response.data),
-          ambienceRating : overview.ambienceRating(response.data),
-          valueRating : overview.valueRating(response.data),
-          noiseLevel : overview.noiseLevel(overview.noise(response.data)),
-          recommended : overview.recommended(response.data),
-          fiveStarReviews : overview.fiveStarReviews(response.data),
-          fourStarReviews : overview.fourStarReviews(response.data),
-          threeStarReviews : overview.threeStarReviews(response.data),
-          twoStarReviews : overview.twoStarReviews(response.data),
-          oneStarReviews : overview.oneStarReviews(response.data)
-        });
+          overallRating: 0,
+          foodRating: 0,
+          serviceRating: 0,
+          ambienceRating: 0,           
+          valueRating: 0,       
+          noiseLevel: 0,
+          recommended: 0,
+          fiveStarReviews : 0,
+          fourStarReviews : 0,
+          threeStarReviews : 0,
+          twoStarReviews : 0,          
+          oneStarReviews :0
+        }
         
+        response.data.map( item => {
+          overviewData.overallRating += item.overall_rating;
+          overviewData.foodRating += item.food_rating;
+          overviewData.serviceRating += item.service_rating;
+          overviewData.ambienceRating += item.ambiance_rating ;           
+          overviewData.valueRating += item.value_rating;      
+          overviewData.noiseLevel += item.food_rating;
+          if (item.recommended) overviewData.recommended += 1;
+          if (item.overall_rating === 5) overviewData.fiveStarReviews += 1;
+          if (item.overall_rating === 4) overviewData.fourStarReviews += 1;
+          if (item.overall_rating === 3) overviewData.threeStarReviews += 1;
+          if (item.overall_rating === 2) overviewData.twoStarReviews += 1;        
+          if (item.overall_rating === 1) overviewData.oneStarReviews += 1;
+        });
+
+        const getAverage = (total) => {
+          return Math.round( (total/response.data.length) * 10 ) / 10;
+        };
+
+        overviewData.overallRating = getAverage(overviewData.overallRating);
+        overviewData.foodRating = getAverage( overviewData.foodRating); 
+        overviewData.serviceRating = getAverage(overviewData.serviceRating); 
+        overviewData.ambienceRating = getAverage(overviewData.ambienceRating);            
+        overviewData.valueRating = getAverage(overviewData.valueRating);      
+        overviewData.noiseLevel = getAverage(overviewData.noiseLevel); 
+        overviewData.recommended = getAverage(overviewData.recommended)*100;
+
+        this.setState({
+          totalReviews: response.data.length,
+          overallRating : overviewData.overallRating,
+          foodRating : overviewData.foodRating,
+          serviceRating : overviewData.serviceRating,
+          ambienceRating : overviewData.ambienceRating,
+          valueRating : overviewData.valueRating,
+          noiseLevel : overviewData.noiseLevel,
+          recommended : overviewData.recommended,
+          fiveStarReviews : overviewData.fiveStarReviews,
+          fourStarReviews : overviewData.fourStarReviews,
+          threeStarReviews : overviewData.threeStarReviews,
+          twoStarReviews : overviewData.twoStarReviews,
+          oneStarReviews : overviewData.oneStarReviews,
+        });
       })
       .catch( error => {
         console.log(error);
@@ -65,7 +104,7 @@ class Overview extends React.Component {
     return (
       <div className="overview">
         <div>
-          <h2><b>What {this.state.totalReviews} People Are Saying</b></h2>
+          <h2><b>What the heck {this.state.totalReviews} People Are Saying</b></h2>
         </div>
         <hr></hr>
         <div><Summary restaurant={this.state}/></div>

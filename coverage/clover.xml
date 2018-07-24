@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1530742853578" clover="3.2.0">
-  <project timestamp="1530742853578" name="All files">
+<coverage generated="1530748861114" clover="3.2.0">
+  <project timestamp="1530748861115" name="All files">
     <metrics statements="24" coveredstatements="19" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="5" elements="32" coveredelements="24" complexity="0" loc="24" ncloc="24" packages="1" files="1" classes="1">
       <file name="cassandra.js" path="/Users/Tona-/Desktop/gitfun/greyscale/reviews_tonaR/database/cassandra/cassandra.js">
         <metrics statements="24" coveredstatements="19" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="5"/>
@@ -12,22 +12,22 @@
         <line num="9" count="1" type="stmt"/>
         <line num="10" count="5" type="stmt"/>
         <line num="11" count="5" type="stmt"/>
-        <line num="20" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
-        <line num="22" count="0" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="45" count="1" type="stmt"/>
-        <line num="46" count="3" type="stmt"/>
-        <line num="49" count="3" type="stmt"/>
-        <line num="59" count="1" type="stmt"/>
-        <line num="60" count="1" type="stmt"/>
-        <line num="61" count="1" type="stmt"/>
-        <line num="71" count="1" type="stmt"/>
-        <line num="72" count="3" type="stmt"/>
-        <line num="73" count="3" type="stmt"/>
-        <line num="82" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="3" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="3" type="stmt"/>
+        <line num="41" count="3" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
       </file>
     </metrics>
   </project>

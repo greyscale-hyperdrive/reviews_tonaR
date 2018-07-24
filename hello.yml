@@ -6,10 +6,10 @@ config:
       name: "Warm up the application"
     - duration: 120
       arrivalRate: 1
-      rampTo: 50
+      rampTo: 10
       name: "jump to max load"
     - duration: 120
-      arrivalRate: 100
+      arrivalRate: 10
       name: "keep at the max load"
     # - duration: 1
     #   arrivalRate: 1
